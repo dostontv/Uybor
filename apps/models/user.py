@@ -16,5 +16,5 @@ class User(AbstractUser):
 
 
 class Favorite(models.Model):
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    listing_id = models.ForeignKey('Listing', on_delete=models.CASCADE)
+    user_id = models.ForeignKey('apps.User', on_delete=models.CASCADE)
+    listing_id = models.ForeignKey('apps.Listing', on_delete=models.CASCADE)
