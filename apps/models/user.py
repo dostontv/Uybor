@@ -9,6 +9,11 @@ class User(AbstractUser):
         realtor = 'Realtor', 'realtor'
         moder = 'Moderator', 'moderator'
 
+    password = None
+    username = None
+    email = None
+    USERNAME_FIELD = 'phone_number'
+    REQUIRED_FIELDS = []
     phone_number = models.CharField(max_length=15, unique=True)
     balance = models.BigIntegerField(db_default=0)
     organization = models.CharField(max_length=50)
