@@ -4,10 +4,10 @@ from django.db import models
 
 class User(AbstractUser):
     class UserType(models.TextChoices):
-        pr_ow = 'Private Owner', 'private owner'
-        dev = 'Developer', 'developer'
-        realtor = 'Realtor', 'realtor'
-        moder = 'Moderator', 'moderator'
+        pr_ow = 'private owner', 'Private Owner'
+        dev = 'developer', 'Developer'
+        realtor = 'realtor', 'Realtor'
+        moder = 'moderator', 'Moderator'
 
     password = None
     username = None

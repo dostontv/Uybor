@@ -40,7 +40,7 @@ class Listing(CustomModel):
     square = models.SmallIntegerField(db_default=1)
     floor = models.SmallIntegerField(db_default=1)  # TODO validator yozilsin FloorTotal dan kichik bo'lsin
     floor_total = models.SmallIntegerField(db_default=1)  # TODO validator yozilsin Floor dan kotaroq bo'lsin
-    is_new_beuilding = models.BooleanField(db_default=False)
+    is_new_building = models.BooleanField(db_default=False)
     repair = models.CharField(max_length=20, choices=RepairType.choices)
     foundation = models.CharField(max_length=15, choices=FoundationType.choices, null=True)
     residential_complex_id = models.BooleanField(null=True)
