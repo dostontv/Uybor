@@ -9,6 +9,6 @@ class CustomModel(models.Model):
         s = "sale", "Sale"
         r = "rent", "Rent"
 
-    operationType = models.CharField(max_length=5, choices=OperationType.choices, default=OperationType.s)
-    createdAT = models.DateTimeField(auto_now=True)
-    updateAT = models.DateTimeField(auto_now=True)
+    operation_type = models.CharField(max_length=5, choices=OperationType.choices, default=OperationType.s)
+    created_at = models.DateTimeField(auto_now=True)
+    update_at = models.DateTimeField(auto_now_add=True)

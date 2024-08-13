@@ -12,14 +12,15 @@ class User(AbstractUser):
     password = None
     username = None
     email = None
-    USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = []
     phone_number = models.CharField(max_length=15, unique=True)
     balance = models.BigIntegerField(db_default=0)
     organization = models.CharField(max_length=50)
-    user_type = models.CharField(max_length=13, choices=UserType.choices, default=UserType.pr_ow)
+    type = models.CharField(max_length=13, choices=UserType.choices, default=UserType.pr_ow)
+
+    USERNAME_FIELD = 'phone_number'
+    REQUIRED_FIELDS = []
 
 
 class Favorite(models.Model):
-    user_id = models.ForeignKey('apps.User', on_delete=models.CASCADE)
-    listing_id = models.ForeignKey('apps.Listing', on_delete=models.CASCADE)
+    user = models.ForeignKey('apps.User', models.CASCADE)
+    listing = models.ForeignKey('apps.Listing', models.CASCADE)

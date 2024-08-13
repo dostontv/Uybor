@@ -4,36 +4,31 @@ from django_ckeditor_5.fields import CKEditor5Field
 from apps.models.base import CustomModel
 
 
-class Currency(models.TextChoices):
-    uz = 'uzs', 'UZS'
-    us = 'usd', 'USD'
-
-
-class PriceType(models.TextChoices):
-    all = 'all', 'All'
-
-
-class RepairType(models.TextChoices):
-    s = "sredniy", "Sredniy"
-    k = "kapital", "Kapital"
-    e = "evro", "Evro"
-    c = "custom", "Custom"
-
-
-class FoundationType(models.TextChoices):
-    p = "panel", "Panel"
-    k = "kirpich", "Kirpich"
-
-
-class MSType(models.TextChoices):
-    a = "approved", "Approved"
-    c = "canceled", "Cancelled"
-    p = "pending", "Pending"
-
-
 class Listing(CustomModel):
-    userId = models.ForeignKey('User', on_delete=models.CASCADE)
-    categoryId = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    class Currency(models.TextChoices):
+        uz = 'uzs', 'UZS'
+        us = 'usd', 'USD'
+
+    class PriceType(models.TextChoices):
+        all = 'all', 'All'
+
+    class RepairType(models.TextChoices):
+        s = "sredniy", "Sredniy"
+        k = "kapital", "Kapital"
+        e = "evro", "Evro"
+        c = "custom", "Custom"
+
+    class FoundationType(models.TextChoices):
+        p = "panel", "Panel"
+        k = "kirpich", "Kirpich"
+
+    class MSType(models.TextChoices):
+        a = "approved", "Approved"
+        c = "canceled", "Cancelled"
+        p = "pending", "Pending"
+
+    owner = models.ForeignKey('User', models.CASCADE)
+    category = models.ForeignKey('Category', models.SET_NULL, null=True)
     description = CKEditor5Field('Text', config_name='extends')
     place = models.CharField(max_length=100, null=True)
     price = models.BigIntegerField()
@@ -44,12 +39,12 @@ class Listing(CustomModel):
     isPriceAuction = models.BooleanField(db_default=False)
     square = models.SmallIntegerField(db_default=1)
     floor = models.SmallIntegerField(db_default=1)  # TODO validator yozilsin FloorTotal dan kichik bo'lsin
-    floorTotal = models.SmallIntegerField(db_default=1)  # TODO validator yozilsin Floor dan kotaroq bo'lsin
+    floor_total = models.SmallIntegerField(db_default=1)  # TODO validator yozilsin Floor dan kotaroq bo'lsin
     isNewBuilding = models.BooleanField(db_default=False)
     repair = models.CharField(max_length=20, choices=RepairType.choices)
     foundation = models.CharField(max_length=15, choices=FoundationType.choices, null=True)
     residentialComplexId = models.BooleanField(null=True)
-    moderationStatus = models.CharField(max_length=20, choices=MSType.choices, db_default=MSType.p)
+    moderation_status = models.CharField(max_length=20, choices=MSType.choices, db_default=MSType.p)
     urgentlyExpiredAt = models.DateField(null=True)
     verifiedExpiredAt = models.DateField(null=True)
     premiumExpiredAt = models.DateField(null=True)
@@ -62,5 +57,5 @@ class Listing(CustomModel):
 
 
 class ListingImage(models.Model):
-    listingId = models.ForeignKey('Listing', on_delete=models.CASCADE)
+    listingId = models.ForeignKey('Listing', models.CASCADE)
     image = models.ImageField(upload_to='listings/')
