@@ -7,5 +7,5 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         # fields = '__all__'
-        # explode =
+        exclude = 'groups', 'user_permissions'
         read_only_fields = 'date_joined', 'last_login',
