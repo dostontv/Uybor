@@ -43,7 +43,7 @@ class Listing(CustomModel):
     isNewBuilding = models.BooleanField(db_default=False)
     repair = models.CharField(max_length=20, choices=RepairType.choices)
     foundation = models.CharField(max_length=15, choices=FoundationType.choices, null=True)
-    residentialComplexId = models.BooleanField(null=True)
+    residential_complex_id = models.BooleanField(null=True)
     moderation_status = models.CharField(max_length=20, choices=MSType.choices, db_default=MSType.p)
     urgentlyExpiredAt = models.DateField(null=True)
     verifiedExpiredAt = models.DateField(null=True)
