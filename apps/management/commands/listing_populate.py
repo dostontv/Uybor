@@ -19,6 +19,7 @@ class Command(BaseCommand):
             random_category = Category.objects.order_by('?').first()
             listings.append(Listing(
                 owner=random_user,
+                operation_type=f.random_element(elements=[choice[0] for choice in Listing.OperationType.choices]),
                 category=random_category,
                 description=f.text(max_nb_chars=255),
                 place=f.address(),
