@@ -1,5 +1,6 @@
 from rest_framework.generics import ListCreateAPIView
 
+from apps.filters import ListingFilter
 from apps.models import User, Listing, Category
 from apps.serializers import UserSerializer, ListingSerializer, CategorySerializer
 
@@ -13,6 +14,7 @@ class UserListCreateView(ListCreateAPIView):
 class ListingListCreateView(ListCreateAPIView):
     queryset = Listing.objects.all()
     serializer_class = ListingSerializer
+    filterset_class = ListingFilter
 
 
 class CategoryListCreateView(ListCreateAPIView):
