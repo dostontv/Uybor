@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.models import User, Listing
+from apps.models import User, Listing, Category
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,3 +14,9 @@ class ListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
         fields = '__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+        read_only_fields = 'created_at', 'update_at'

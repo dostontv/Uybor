@@ -32,10 +32,11 @@ class Listing(CustomModel):
     description = CKEditor5Field('Text', config_name='extends')
     place = models.CharField(max_length=100, null=True)
     price = models.BigIntegerField()
-    price_currency = models.CharField(max_length=4, choices=Currency.choices, default=Currency.uz)
+    price_currency = models.CharField(max_length=4, choices=Currency.choices, db_default=Currency.uz)
     price_type = models.CharField(max_length=4, choices=PriceType.choices, db_default=PriceType.all)
     price_period_unit = models.CharField(max_length=155, null=True)
     room = models.SmallIntegerField(db_default=1)
+    is_active = models.BooleanField(db_default=False)
     is_price_auction = models.BooleanField(db_default=False)
     square = models.SmallIntegerField(db_default=1)
     floor = models.SmallIntegerField(db_default=1)  # TODO validator yozilsin FloorTotal dan kichik bo'lsin
