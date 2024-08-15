@@ -18,12 +18,17 @@ class ListingFilter(filters.FilterSet):
         p = "views", 'eng kam korilganlar'
         p_ = "-views", 'eng kop korilganlar'
 
+    class operationType(TextChoices):
+        s = "sale", 'Sale'
+        r = "rent", 'Rent'
+
     search = filters.CharFilter(method='search_filter')
     date = filters.ChoiceFilter(method='created_filter', choices=DateType.choices)
     price = filters.ChoiceFilter(method='exp_filter', choices=expType.choices)
     views = filters.ChoiceFilter(method='popular_filter', choices=popularType.choices)
     price__gte = filters.CharFilter(method='price_gte')
     price__lte = filters.CharFilter(method='price_lte')
+    operation = filters.ChoiceFilter(method='opertaion_type', choices=operationType.choices)
 
     class Meta:
         model = Listing
@@ -52,9 +57,13 @@ class ListingFilter(filters.FilterSet):
 
         return queryset.order_by('views')
 
-
     def price_gte(self, queryset, name, value: str):
         return queryset.filter(price__gte=int(value))
 
     def price_lte(self, queryset, name, value: str):
         return queryset.filter(price__lte=int(value))
+
+    def opertaion_type(self, queryset, name, value: str):
+        if value.startswith('r'):
+            return queryset.filter(operation_type='rent')
+        return queryset.filter(operation_type='sale')
