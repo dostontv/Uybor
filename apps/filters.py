@@ -7,10 +7,11 @@ from apps.models import Listing
 
 class ListingFilter(filters.FilterSet):
     search = filters.CharFilter(method='search_filter')
+    data = filters.DateFilter(field_name='created_at', lookup_expr='gte')
 
     class Meta:
         model = Listing
-        fields = ['search']
+        fields = ['search', 'data']
 
     def search_filter(self, queryset, name, value):
         if value and value != 'sale':
