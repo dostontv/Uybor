@@ -15,7 +15,7 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=15, unique=True)
     balance = models.BigIntegerField(db_default=0)
     organization = models.CharField(max_length=50)
-    type = models.CharField(max_length=13, choices=UserType.choices, default=UserType.pr_ow)
+    type = models.CharField(max_length=13, choices=UserType.choices, db_default=UserType.pr_ow)
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = []

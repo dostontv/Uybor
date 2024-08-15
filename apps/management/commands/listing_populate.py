@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 from apps.models import Listing, User, Category  # User va Category modellaringizni import qiling
 
+
 class Command(BaseCommand):
     help = "Populates the database with listings"
 
@@ -45,7 +46,8 @@ class Command(BaseCommand):
                 favorites=f.random_number(digits=2) * 100,
                 is_vip=f.boolean(),
                 is_premium=f.boolean(),
-                is_urgently=f.boolean()
+                is_urgently=f.boolean(),
+                is_active=f.boolean()
             ))
 
         Listing.objects.bulk_create(listings)
