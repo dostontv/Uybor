@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from apps.models.managers import CustomUserManager
+
 
 class User(AbstractUser):
     class UserType(models.TextChoices):
@@ -9,13 +11,14 @@ class User(AbstractUser):
         realtor = 'realtor', 'Realtor'
         moder = 'moderator', 'Moderator'
 
-    password = None
     username = None
     email = None
     phone_number = models.CharField(max_length=15, unique=True)
     balance = models.BigIntegerField(db_default=0)
     organization = models.CharField(max_length=50)
     type = models.CharField(max_length=13, choices=UserType.choices, db_default=UserType.pr_ow)
+
+    objects = CustomUserManager()
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = []

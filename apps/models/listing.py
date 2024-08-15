@@ -58,5 +58,5 @@ class Listing(CustomModel):
 
 
 class ListingImage(models.Model):
-    listing_id = models.ForeignKey('Listing', models.CASCADE)
+    listing = models.ForeignKey('Listing', models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='listings/')
