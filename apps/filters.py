@@ -1,17 +1,33 @@
 from django.contrib.postgres.search import TrigramSimilarity
-from django.db.models import F
+from django.db.models import F, TextChoices
 from django_filters import rest_framework as filters
 
 from apps.models import Listing
 
 
 class ListingFilter(filters.FilterSet):
+    class DateType(TextChoices):
+        c = "created_at", 'eng esklari boyicha'
+        c_ = "-created_at", 'eng yangilari boyicha'
+
+    class expType(TextChoices):
+        p = "priceEquivalent", 'eng arzonlari'
+        p_ = "-priceEquivalent", 'eng QIMMATLARI'
+
+    class popularType(TextChoices):
+        p = "views", 'eng kam korilganlar'
+        p_ = "-views", 'eng kop korilganlar'
+
     search = filters.CharFilter(method='search_filter')
-    data = filters.DateFilter(field_name='created_at', lookup_expr='gte')
+    date = filters.ChoiceFilter(method='created_filter', choices=DateType.choices)
+    price = filters.ChoiceFilter(method='exp_filter', choices=expType.choices)
+    views = filters.ChoiceFilter(method='popular_filter', choices=popularType.choices)
+    price__gte = filters.CharFilter(method='price_gte')
+    price__lte = filters.CharFilter(method='price_lte')
 
     class Meta:
         model = Listing
-        fields = ['search', 'data']
+        fields = ['search', 'date', 'price', 'views', 'price__gte', 'price__lte']
 
     def search_filter(self, queryset, name, value):
         if value and value != 'sale':
@@ -20,3 +36,25 @@ class ListingFilter(filters.FilterSet):
                 is_active=True
             )
         return queryset.filter(is_active=True, moderation_status=Listing.MSType.a)
+
+    def created_filter(self, queryset, name, value: str):
+        return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
+
+    def exp_filter(self, queryset, name, value: str):
+        if value.startswith('-'):
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('-price')
+
+        return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('price')
+
+    def popular_filter(self, queryset, name, value: str):
+        if value.startswith('-'):
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('-views')
+
+        return queryset.order_by('views')
+
+
+    def price_gte(self, queryset, name, value: str):
+        return queryset.filter(price__gte=int(value))
+
+    def price_lte(self, queryset, name, value: str):
+        return queryset.filter(price__lte=int(value))

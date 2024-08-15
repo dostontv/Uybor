@@ -24,7 +24,7 @@ class ListingListModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
         fields = ['id', 'owner', 'description', 'image_count', 'price', 'room', 'square', 'floor', 'floor_total',
-                  'images', 'created_at', 'update_at']
+                  'images', 'created_at', 'update_at','views', 'is_active', 'moderation_status']
 
     def get_image_count(self, obj: Listing):
         return obj.images.count()
