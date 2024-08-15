@@ -26,8 +26,8 @@ class ListingListModelSerializer(serializers.ModelSerializer):
         fields = ['id', 'owner', 'description', 'image_count', 'price', 'room', 'square', 'floor', 'floor_total',
                   'images', 'created_at', 'update_at']
 
-        def get_image_count(self, obj: Listing):
-            return obj.images.count()
+    def get_image_count(self, obj: Listing):
+        return obj.images.count()
 
 
 class CategorySerializer(serializers.ModelSerializer):
