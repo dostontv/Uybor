@@ -16,6 +16,6 @@ class ListingFilter(filters.FilterSet):
         if value and value != 'sale':
             return queryset.annotate(similarity=TrigramSimilarity(F('place'), value)).filter(
                 similarity__gt=0.1,
-                is_active=False
+                is_active=True
             )
         return queryset.filter(is_active=True, moderation_status=Listing.MSType.a)
