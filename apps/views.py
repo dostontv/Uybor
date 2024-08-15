@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView
 
 from apps.filters import ListingFilter
 from apps.models import User, Listing, Category
@@ -15,7 +15,7 @@ class UserListCreateAPIView(ListCreateAPIView):
 
 
 @extend_schema(tags=['listing'])
-class ListingListCreateView(ListCreateAPIView):
+class ListingListCreateAPIView(ListCreateAPIView):
     queryset = Listing.objects.all()
     serializer_class = ListingListModelSerializer
     filterset_class = ListingFilter
@@ -26,6 +26,6 @@ class ListingListCreateView(ListCreateAPIView):
         return super().get_serializer_class()
 
 
-class CategoryListCreateView(ListCreateAPIView):
+class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
