@@ -7,28 +7,28 @@ from apps.models import Listing
 
 class ListingFilter(filters.FilterSet):
     class DateType(TextChoices):
-        c = "created_at", 'eng esklari boyicha'
-        c_ = "-created_at", 'eng yangilari boyicha'
+        C = "created_at", 'eng esklari boyicha'
+        C_ = "-created_at", 'eng yangilari boyicha'
 
-    class expType(TextChoices):
-        p = "priceEquivalent", 'eng arzonlari'
-        p_ = "-priceEquivalent", 'eng QIMMATLARI'
+    class ExpType(TextChoices):
+        P = "priceEquivalent", 'eng arzonlari'
+        P_ = "-priceEquivalent", 'eng QIMMATLARI'
 
-    class popularType(TextChoices):
-        p = "views", 'eng kam korilganlar'
-        p_ = "-views", 'eng kop korilganlar'
+    class PopularType(TextChoices):
+        P = "views", 'eng kam korilganlar'
+        P_ = "-views", 'eng kop korilganlar'
 
-    class operationType(TextChoices):
-        s = "sale", 'Sale'
-        r = "rent", 'Rent'
+    class OperationType(TextChoices):
+        S = "sale", 'Sale'
+        R = "rent", 'Rent'
 
     search = filters.CharFilter(method='search_filter')
     date = filters.ChoiceFilter(method='created_filter', choices=DateType.choices)
-    price = filters.ChoiceFilter(method='exp_filter', choices=expType.choices)
-    views = filters.ChoiceFilter(method='popular_filter', choices=popularType.choices)
+    price = filters.ChoiceFilter(method='exp_filter', choices=ExpType.choices)
+    views = filters.ChoiceFilter(method='popular_filter', choices=PopularType.choices)
     price__gte = filters.CharFilter(method='price_gte')
     price__lte = filters.CharFilter(method='price_lte')
-    operation = filters.ChoiceFilter(method='opertaion_type', choices=operationType.choices)
+    operation = filters.ChoiceFilter(method='opertaion_type', choices=OperationType.choices)
 
     class Meta:
         model = Listing
@@ -40,21 +40,21 @@ class ListingFilter(filters.FilterSet):
                 similarity__gt=0.1,
                 is_active=True
             )
-        return queryset.filter(is_active=True, moderation_status=Listing.MSType.a)
+        return queryset.filter(is_active=True, moderation_status=Listing.MSType.A)
 
     def created_filter(self, queryset, name, value: str):
         if value == '-created_at':
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
-        return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('created_at')
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by(value)
+        return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by('created_at')
 
     def exp_filter(self, queryset, name, value: str):
         if value == '-price':
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
-        return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('price')
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by(value)
+        return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by('price')
 
     def popular_filter(self, queryset, name, value: str):
         if value == '-views':
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by(value)
         return queryset.order_by('views')
 
     def price_gte(self, queryset, name, value: str):

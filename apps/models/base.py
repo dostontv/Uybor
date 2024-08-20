@@ -6,9 +6,9 @@ class CustomModel(models.Model):
         abstract = True
 
     class OperationType(models.TextChoices):
-        s = "sale", "Sale"
-        r = "rent", "Rent"
+        S = "sale", "Sale"
+        R = "rent", "Rent"
 
-    operation_type = models.CharField(max_length=5, choices=OperationType.choices, db_default=OperationType.s)
+    operation_type = models.CharField(max_length=5, choices=OperationType.choices, db_default=OperationType.R)
     created_at = models.DateTimeField(auto_now=True)
     update_at = models.DateTimeField(auto_now_add=True)
