@@ -7,7 +7,6 @@ from apps.models import User, Listing, Category
 class UserModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        # fields = '__all__'
         exclude = 'groups', 'user_permissions'
         read_only_fields = 'date_joined', 'last_login',
 
@@ -23,11 +22,13 @@ class ListingListModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Listing
-        fields = ['id', 'owner', 'description', 'image_count', 'price', 'room', 'square', 'floor', 'floor_total',
-                  'images', 'created_at', 'update_at','views', 'is_active', 'moderation_status','operation_type']
+        fields = ['id', 'owner', 'description', 'image_count', 'price', 'room', 'square', 'floor', 'floor_total', 'created_at', 'update_at','views', 'is_active', 'moderation_status','operation_type']
 
-    def get_image_count(self, obj: Listing):
+    def get_image_count(self, obj: Listing) -> int:
         return obj.images.count()
+
+    def to_representation(self, instance):
+        return super().to_representation(instance)
 
 
 class CategorySerializer(serializers.ModelSerializer):

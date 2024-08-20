@@ -35,7 +35,7 @@ class ListingFilter(filters.FilterSet):
         fields = ['search', 'date', 'price', 'views', 'price__gte', 'price__lte']
 
     def search_filter(self, queryset, name, value):
-        if value and value != 'sale':
+        if value:
             return queryset.annotate(similarity=TrigramSimilarity(F('place'), value)).filter(
                 similarity__gt=0.1,
                 is_active=True
@@ -43,27 +43,30 @@ class ListingFilter(filters.FilterSet):
         return queryset.filter(is_active=True, moderation_status=Listing.MSType.a)
 
     def created_filter(self, queryset, name, value: str):
-        return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
+        if value == '-created_at':
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
+        return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('created_at')
 
     def exp_filter(self, queryset, name, value: str):
-        if value.startswith('-'):
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('-price')
-
+        if value == '-price':
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
         return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('price')
 
     def popular_filter(self, queryset, name, value: str):
-        if value.startswith('-'):
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by('-views')
-
+        if value == '-views':
+            return queryset.filter(is_active=True, moderation_status=Listing.MSType.a).order_by(value)
         return queryset.order_by('views')
 
     def price_gte(self, queryset, name, value: str):
-        return queryset.filter(price__gte=int(value))
+        if value.isdigit():
+            return queryset.filter(price__gte=int(value))
 
     def price_lte(self, queryset, name, value: str):
-        return queryset.filter(price__lte=int(value))
+        if value.isdigit():
+            return queryset.filter(price__lte=int(value))
 
     def opertaion_type(self, queryset, name, value: str):
-        if value.startswith('r'):
-            return queryset.filter(operation_type='rent')
-        return queryset.filter(operation_type='sale')
+        if value == 'rent':
+            return queryset.filter(operation_type=value)
+        elif value == 'sale':
+            return queryset.filter(operation_type='sale')
