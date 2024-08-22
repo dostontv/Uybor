@@ -1,3 +1,8 @@
+import random
+
+from django.core.cache import cache
+from django.http import HttpResponse
+from django.views import View
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 
@@ -29,3 +34,18 @@ class ListingListCreateAPIView(ListCreateAPIView):
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+class SendCodeView(View):
+    def get(self, request, *args, **kwargs):
+        phone_number = request.GET.get('phone_number')
+
+        code = cache.get(phone_number)
+        if not code:
+            code = str(random.randint(100000, 999999))
+
+            cache.set(phone_number, code, timeout=120)
+        else:
+            return HttpResponse(f"Oldingi kod hali ham yaroqli: {code}")
+
+        return HttpResponse(f"Yangi kod: {code}")
