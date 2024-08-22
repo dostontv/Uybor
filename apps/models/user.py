@@ -6,17 +6,17 @@ from apps.models.managers import CustomUserManager
 
 class User(AbstractUser):
     class UserType(models.TextChoices):
-        pr_ow = 'private owner', 'Private Owner'
-        dev = 'developer', 'Developer'
-        realtor = 'realtor', 'Realtor'
-        moder = 'moderator', 'Moderator'
+        PR_OW = 'private owner', 'Private Owner'
+        DEV = 'developer', 'Developer'
+        REALTOR = 'realtor', 'Realtor'
+        MODER = 'moderator', 'Moderator'
 
     username = None
     email = None
     phone_number = models.CharField(max_length=15, unique=True)
     balance = models.BigIntegerField(db_default=0)
     organization = models.CharField(max_length=50)
-    type = models.CharField(max_length=13, choices=UserType.choices, db_default=UserType.pr_ow)
+    type = models.CharField(max_length=13, choices=UserType.choices, db_default=UserType.PR_OW)
 
     objects = CustomUserManager()
 

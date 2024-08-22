@@ -1,2 +1,15 @@
 Chat Django Drf
     https://medium.com/@Evenword/how-to-create-a-chat-bot-using-django-drf-579a7f0cff07
+
+
+
+task
+
+1. queryset override
+https://medium.com/django-unleashed/when-and-how-to-override-managers-and-querysets-in-django-f9f8f228fcb4
+
+
+2. dynamic model serializer
+
+
+3. list va detail apilarni ajratish

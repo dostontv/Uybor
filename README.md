@@ -27,9 +27,7 @@ Then write this
 
 To create fake data
 -
-### User:
-> ./manage.py populate_data count
-### Category:
-> ./manage.py category_data count
-### Listing:
-> ./manage.py listing_populate count
+> ./manage.py generations -u count -c count -l count
+* -u User
+* -c Category
+* -l Listing
