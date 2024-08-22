@@ -22,17 +22,17 @@ class ListingFilter(filters.FilterSet):
         S = "sale", 'Sale'
         R = "rent", 'Rent'
 
-    search = filters.CharFilter(method='search_filter')
+    # search = filters.CharFilter(method='search_filter')
     date = filters.ChoiceFilter(method='created_filter', choices=DateType.choices)
     price = filters.ChoiceFilter(method='exp_filter', choices=ExpType.choices)
     views = filters.ChoiceFilter(method='popular_filter', choices=PopularType.choices)
-    price__gte = filters.CharFilter(method='price_gte')
-    price__lte = filters.CharFilter(method='price_lte')
+    price__gte = filters.CharFilter(field_name='price', lookup_expr='gte')
+    price__lte = filters.CharFilter(field_name='price', lookup_expr='lte')
     operation = filters.ChoiceFilter(method='opertaion_type', choices=OperationType.choices)
 
     class Meta:
         model = Listing
-        fields = ['search', 'date', 'price', 'views', 'price__gte', 'price__lte']
+        fields = ['date', 'price', 'views', 'price__gte', 'price__lte']
 
     # def search_filter(self, queryset, name, value):
     #     if value:
@@ -56,14 +56,6 @@ class ListingFilter(filters.FilterSet):
         if value == '-views':
             return queryset.order_by(value)
         return queryset.order_by('views')
-
-    def price_gte(self, queryset, name, value: str):
-        if value.isdigit():
-            return queryset.filter(price__gte=int(value))
-
-    def price_lte(self, queryset, name, value: str):
-        if value.isdigit():
-            return queryset.filter(price__lte=int(value))
 
     def opertaion_type(self, queryset, name, value: str):
         if value == 'rent':
