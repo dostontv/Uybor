@@ -30,7 +30,7 @@ class Listing(CustomModel):
     owner = models.ForeignKey('User', models.CASCADE)
     category = models.ForeignKey('Category', models.SET_NULL, null=True)
     description = CKEditor5Field('Text', config_name='extends')
-    place = models.CharField(max_length=100, null=True)
+    district = models.ForeignKey('apps.District', models.DO_NOTHING, null=True)
     price = models.BigIntegerField()
     price_currency = models.CharField(max_length=4, choices=Currency.choices, db_default=Currency.UZ)
     price_type = models.CharField(max_length=4, choices=PriceType.choices, db_default=PriceType.ALL)

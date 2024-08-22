@@ -13,3 +13,8 @@ https://medium.com/django-unleashed/when-and-how-to-override-managers-and-querys
 
 
 3. list va detail apilarni ajratish
+
+
+api/v1/test-login
+    phone or email
+    password

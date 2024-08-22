@@ -1,10 +1,9 @@
 from django.urls import path
 
-from apps.views import UserListCreateAPIView, ListingListCreateAPIView, CategoryListAPIView, SendCodeView
+from apps.views import UserCreateAPIView, ListingListCreateAPIView, CategoryListAPIView
 
 urlpatterns = [
-    path('user/', UserListCreateAPIView.as_view()),
+    path('user/', UserCreateAPIView.as_view()),
     path('listing/', ListingListCreateAPIView.as_view()),
     path('category/', CategoryListAPIView.as_view()),
-    path('send-code/', SendCodeView.as_view(), name='send_code'),
 ]

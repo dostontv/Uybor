@@ -34,27 +34,27 @@ class ListingFilter(filters.FilterSet):
         model = Listing
         fields = ['search', 'date', 'price', 'views', 'price__gte', 'price__lte']
 
-    def search_filter(self, queryset, name, value):
-        if value:
-            return queryset.annotate(similarity=TrigramSimilarity(F('place'), value)).filter(
-                similarity__gt=0.1,
-                is_active=True
-            )
-        return queryset.filter(is_active=True, moderation_status=Listing.MSType.A)
+    # def search_filter(self, queryset, name, value):
+    #     if value:
+    #         return queryset.annotate(similarity=TrigramSimilarity(F('place'), value)).filter(
+    #             similarity__gt=0.1,
+    #             is_active=True
+    #         )
+    #     return queryset
 
     def created_filter(self, queryset, name, value: str):
         if value == '-created_at':
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by(value)
-        return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by('created_at')
+            return queryset.order_by(value)
+        return queryset.order_by('created_at')
 
     def exp_filter(self, queryset, name, value: str):
         if value == '-price':
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by(value)
-        return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by('price')
+            return queryset.order_by(value)
+        return queryset.order_by('price')
 
     def popular_filter(self, queryset, name, value: str):
         if value == '-views':
-            return queryset.filter(is_active=True, moderation_status=Listing.MSType.A).order_by(value)
+            return queryset.order_by(value)
         return queryset.order_by('views')
 
     def price_gte(self, queryset, name, value: str):

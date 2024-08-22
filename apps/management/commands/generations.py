@@ -20,13 +20,14 @@ class Command(BaseCommand):
                 phone_number=f"998{self.faker.msisdn()[:9]}",
                 balance=self.faker.random_number(digits=3) * 1000,
                 organization=self.faker.company(),
+                password=self.faker.password(),
                 type=self.faker.random_choices(elements=User.UserType.choices, length=1)[0][0]
             ) for _ in range(n)
         ])
 
     def _category(self, n: int):
         category = []
-        for i in range(n):
+        for _ in range(n):
             random_category = Category.objects.order_by('?').first()
             category.append(Category(
                 name=self.faker.name(),
@@ -39,7 +40,7 @@ class Command(BaseCommand):
 
     def _listing(self, n: int):
         listings = []
-        for i in range(n):
+        for _ in range(n):
             random_user = User.objects.order_by('?').first()
             random_category = Category.objects.order_by('?').first()
             listings.append(Listing(
